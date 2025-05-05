@@ -1,7 +1,5 @@
-// --- profile.dart (Modified - Implemented PDF Generation) ---
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-// --- PDF & File Handling Imports ---
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:pdf/pdf.dart';
@@ -10,7 +8,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:open_filex/open_filex.dart';
 import 'dart:io';
 import 'package:flutter/services.dart' show rootBundle; // To load font asset
-// --- End PDF Imports ---
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
