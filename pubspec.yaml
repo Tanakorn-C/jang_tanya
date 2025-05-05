@@ -47,6 +47,8 @@ dependencies:
   open_filex: ^4.4.0 # For opening the generated PDF file
   flutter_lints: ^5.0.0 # Example linter
   flutter_localization: ^0.3.2
+
+  google_mlkit_text_recognition: ^0.11.0 # Check for the latest version
   
 dev_dependencies:
   flutter_test:
