@@ -118,7 +118,7 @@ class NotificationHelper {
   }
 
   static Future<void> _requestPermissions() async {
-    /* ... keep as is ... */
+
     final androidPlugin =
         _notification
             .resolvePlatformSpecificImplementation<
@@ -133,7 +133,7 @@ class NotificationHelper {
   }
 
   static Future<void> scheduleSingleMedicineNotification({
-    /* ... keep as is ... */
+
     required int notificationId,
     required String medicineId,
     required String medicineName,
@@ -187,7 +187,7 @@ class NotificationHelper {
   }
 
   static Future<void> scheduleSnoozeNotification({
-    /* ... keep as is ... */ required int notificationId,
+    required int notificationId,
     required String medicineName,
     required String quantity,
     required String unit,
@@ -230,7 +230,7 @@ class NotificationHelper {
   }
 
   static tz.TZDateTime _nextInstanceOfTime(TimeOfDay time) {
-    /* ... keep as is ... */
+
     final location = tz.getLocation('Asia/Bangkok');
     final tz.TZDateTime now = tz.TZDateTime.now(location);
     tz.TZDateTime scheduledDate = tz.TZDateTime(
@@ -248,7 +248,7 @@ class NotificationHelper {
   }
 
   static Future<void> cancelNotification(int notificationId) async {
-    /* ... keep as is ... */
+ 
     try {
       await _notification.cancel(notificationId);
       print('Cancelled notification ID $notificationId');
@@ -258,7 +258,7 @@ class NotificationHelper {
   }
 
   static Future<void> cancelAllNotifications() async {
-    /* ... keep as is ... */
+
     try {
       await _notification.cancelAll();
       print('Cancelled all notifications.');

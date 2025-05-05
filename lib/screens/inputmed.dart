@@ -3,14 +3,13 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:medicineproject/main.dart'; 
+import 'package:medicineproject/main.dart';
 import 'package:medicineproject/screens/profile.dart';
 import 'package:medicineproject/screens/reminderView.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'dart:math' as math; 
+import 'dart:math' as math;
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
-
 
 class Inputmed extends StatefulWidget {
   const Inputmed({super.key});
@@ -102,7 +101,7 @@ class _InputmedState extends State<Inputmed> {
   }
   // --- END Simple Image Picker ---
 
-  // --- Date/Time Pickers (Keep as is) ---
+  // --- Date/Time Pickers
   Future<void> _selectStartDate() async {
     if (_isProcessingOCR || _isSubmitting) return;
     DateTime initial =
@@ -158,7 +157,7 @@ class _InputmedState extends State<Inputmed> {
     if (p != null) setState(() => c.text = p.format(context));
   } // Note: format(context) uses locale but might not match DateFormat.jm
 
-  // --- Submit Data (Keep as is, ensure validation is correct) ---
+  // --- Submit Data  ---
   Future<void> _submitData() async {
     if (_isProcessingOCR || _isSubmitting) return;
     final String name = _nameController.text.trim();
@@ -575,7 +574,7 @@ class _InputmedState extends State<Inputmed> {
   }
   // --- END OCR Function ---
 
-  // --- Helper Widgets (Keep as is) ---
+  // --- Helper Widgets  ---
   Widget _buildSelectableButton(String text) {
     /* ... as before ... */
     bool isSelected = _selectedTimes.contains(text);
@@ -695,6 +694,22 @@ class _InputmedState extends State<Inputmed> {
                                       ImageSource.gallery,
                                     ),
                           ),
+                          // --- ADDED OCR SCAN BUTTON ---
+                          IconButton(
+                            tooltip: "สแกนรายละเอียดจากรูปภาพ (OCR)",
+                            icon: const Icon(
+                              Icons.document_scanner_outlined,
+                              color: Colors.blueAccent,
+                            ), // Scanner icon
+                            onPressed:
+                                (_isProcessingOCR || _isSubmitting)
+                                    ? null
+                                    // Calls the OCR function, default to gallery (can offer choice later)
+                                    : () => _scanAndPopulateFields(
+                                      ImageSource.gallery,
+                                    ),
+                          ),
+                          // --- END ADDED OCR SCAN BUTTON ---
                         ],
                       ),
                     ],
@@ -916,7 +931,6 @@ class _InputmedState extends State<Inputmed> {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        /* ... Keep as is ... */
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.greenAccent,
         selectedItemColor: Colors.black,
@@ -954,6 +968,4 @@ class _InputmedState extends State<Inputmed> {
       ),
     );
   }
-
-
 } // End _InputmedState

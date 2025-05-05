@@ -18,7 +18,7 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 // --- Top-level parseMedicineTimes ---
 List<TimeOfDay> parseMedicineTimes(String timesString) {
-  /* ... keep as is ... */
+
   List<TimeOfDay> parsedTimes = [];
   if (timesString.isEmpty) {
     return parsedTimes;
@@ -140,9 +140,9 @@ class Medicine {
 }
 // --- End Medicine Model ---
 
-// --- fetchMedicines (Keep as is) ---
+// --- fetchMedicines ---
 Future<List<Medicine>> fetchMedicines() async {
-  /* ... keep as is ... */
+
   final url = Uri.parse('http://10.0.2.2:8080/medicines');
   print("Fetching medicines from: $url");
   try {
@@ -168,7 +168,7 @@ Future<List<Medicine>> fetchMedicines() async {
 
 // --- HomeScreen Widget ---
 class HomeScreen extends StatefulWidget {
-  /* ... keep as is ... */
+
   const HomeScreen({super.key});
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -203,7 +203,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _loadDataAndSchedule() {
-    /* ... keep as is ... */
+
     final future = fetchMedicines()
         .then((medicines) {
           _scheduleAllNotifications(medicines);
@@ -223,14 +223,14 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _refreshMedicines() async {
-    /* ... keep as is ... */
+
     print("Refreshing medicines list...");
     _loadDataAndSchedule();
     await Future.delayed(const Duration(milliseconds: 500));
   }
 
   Future<void> _scheduleAllNotifications(List<Medicine> medicines) async {
-    /* ... keep as is, ensure 'unit' is passed ... */
+
     print("Attempting to schedule notifications...");
     await NotificationHelper.cancelAllNotifications();
     int notificationScheduledCount = 0;
@@ -275,7 +275,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    /* ... keep as is ... */
+
     return Scaffold(
       backgroundColor: Colors.teal[200],
       appBar: AppBar(
@@ -406,7 +406,6 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 // --- End Home Screen ---
 
-// --- Medicine Box (Keep as is) ---
 class MedicineBox extends StatelessWidget {
   final Medicine medicine;
   final VoidCallback onDelete;
@@ -621,16 +620,16 @@ void _navigateToEditPage(BuildContext context) {
 
 // --- End Medicine Box ---
 
-// --- TimeDisplay (Keep as is) ---
+
 class TimeDisplay extends StatefulWidget {
-  /* ... */
+
   const TimeDisplay({super.key});
   @override
   _TimeDisplayState createState() => _TimeDisplayState();
 }
 
 class _TimeDisplayState extends State<TimeDisplay> {
-  /* ... keep as is ... */
+
   String _currentTime = '';
   Timer? _timer;
   @override
