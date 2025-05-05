@@ -12,6 +12,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart'; // Import plugin
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:medicineproject/loginscreens/loginpage.dart';
+import 'package:medicineproject/screens/editmed.dart';
 
 // --- Global Key ---
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -84,7 +85,6 @@ class MyApp extends StatelessWidget {
       // Home can be HomeScreen directly now
       home: const LoginPage(),
 
-
       // Define routes if using named navigation
       routes: {
         // Example: You might fetch data first and then pass it
@@ -100,7 +100,6 @@ class MyApp extends StatelessWidget {
 
 // --- Medicine Model (Ensure 'unit' field is added) ---
 class Medicine {
-  /* ... keep as is, ensure 'unit' field is present ... */
   final String id;
   final String name;
   final String description;
@@ -109,6 +108,9 @@ class Medicine {
   final String quantity;
   final String unit;
   final String imageUrl;
+  final String startDate; // <-- ADDED Field
+  final String endDate;   // <-- ADDED Field
+
   Medicine({
     required this.id,
     required this.name,
@@ -118,7 +120,10 @@ class Medicine {
     required this.quantity,
     required this.unit,
     required this.imageUrl,
+    required this.startDate, // <-- ADDED to constructor
+    required this.endDate,   // <-- ADDED to constructor
   });
+
   factory Medicine.fromJson(Map<String, dynamic> json) {
     return Medicine(
       id: json['id']?.toString() ?? '',
@@ -126,12 +131,15 @@ class Medicine {
       description: json['description'] ?? '',
       mealTimes: json['mealTimes'] ?? '',
       times: json['times'] ?? '',
-      quantity: json['quantity']?.toString() ?? '0',
+      quantity: json['quantity']?.toString() ?? '0', // Assuming backend sends number
       unit: json['unit'] ?? '',
       imageUrl: json['imageUrl'] ?? '',
+      startDate: json['startDate']?.toString() ?? '', // <-- ADDED Parsing
+      endDate: json['endDate']?.toString() ?? '',     // <-- ADDED Parsing
     );
   }
 }
+// --- End Medicine Model ---
 
 // --- fetchMedicines (Keep as is) ---
 Future<List<Medicine>> fetchMedicines() async {
@@ -410,6 +418,26 @@ class MedicineBox extends StatelessWidget {
     required this.onDelete,
   });
 
+void _navigateToEditPage(BuildContext context) {
+  
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      // passing the current medicine data
+      builder: (context) => EditMedicinePage(initialMedicine: medicine),
+    ),
+  ).then((updateWasSuccessful) {
+     // This code runs *after* the EditMedicinePage is popped
+     if (updateWasSuccessful == true) {
+         print("Returned from successful edit, refreshing list via callback.");
+         onDelete(); // Call the refresh callback passed from HomeScreen
+     } else {
+          print("Returned from edit, no update detected or save failed.");
+     }
+  });
+}
+// 
+
   Future<void> _deleteMedicine(BuildContext context) async {
     if (medicine.id.isEmpty) {
       print('Error: Cannot delete medicine "${medicine.name}" with empty ID.');
@@ -447,6 +475,8 @@ class MedicineBox extends StatelessWidget {
       ).showSnackBar(SnackBar(content: Text("เกิดข้อผิดพลาดในการลบยา: $e")));
     }
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -533,6 +563,18 @@ class MedicineBox extends StatelessWidget {
                 ],
               ),
             ),
+            // --- EDIT BUTTON ADDED 
+          IconButton(
+            icon: const Icon(Icons.edit_note, color: Colors.blueGrey), // Edit Icon
+            iconSize: 26,
+            visualDensity: VisualDensity.compact,
+            padding: const EdgeInsets.symmetric(horizontal: 4), // Adjusted padding
+            tooltip: 'แก้ไข ${medicine.name}',
+            onPressed: () {
+                _navigateToEditPage(context); // Call navigation function
+            },
+          ),
+          // --- END EDIT BUTTON ---
             IconButton(
               icon: const Icon(Icons.delete_outline, color: Colors.redAccent),
               iconSize: 24,
